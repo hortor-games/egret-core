@@ -15329,6 +15329,10 @@ var egret;
                  */
                 _this.stroke = 0;
                 /**
+                 * 描边Y轴偏移
+                 */
+                _this.strokeOffsetY = 0;
+                /**
                  * 是否加粗
                  */
                 _this.bold = false;
@@ -16342,11 +16346,12 @@ var egret;
                 var textColor = format.textColor == null ? node.textColor : format.textColor;
                 var strokeColor = format.strokeColor == null ? node.strokeColor : format.strokeColor;
                 var stroke = format.stroke == null ? node.stroke : format.stroke;
+                var strokeOffsetY = format.strokeOffsetY == null ? node.strokeOffsetY : format.strokeOffsetY;
                 context.fillStyle = egret.toColorString(textColor);
                 context.strokeStyle = egret.toColorString(strokeColor);
                 if (stroke) {
                     context.lineWidth = stroke * 2;
-                    context.strokeText(text, x + context.$offsetX, y + context.$offsetY);
+                    context.strokeText(text, x + context.$offsetX, y + context.$offsetY + strokeOffsetY);
                 }
                 context.fillText(text, x + context.$offsetX, y + context.$offsetY);
             }
@@ -19078,8 +19083,8 @@ var egret;
             var isChanged = false;
             var reg;
             var result;
-            if (values[35 /* restrictAnd */] != null) {
-                reg = new RegExp("[" + values[35 /* restrictAnd */] + "]", "g");
+            if (values[36 /* restrictAnd */] != null) {
+                reg = new RegExp("[" + values[36 /* restrictAnd */] + "]", "g");
                 result = textValue.match(reg);
                 if (result) {
                     textValue = result.join("");
@@ -19089,8 +19094,8 @@ var egret;
                 }
                 isChanged = true;
             }
-            if (values[36 /* restrictNot */] != null) {
-                reg = new RegExp("[^" + values[36 /* restrictNot */] + "]", "g");
+            if (values[37 /* restrictNot */] != null) {
+                reg = new RegExp("[^" + values[37 /* restrictNot */] + "]", "g");
                 result = textValue.match(reg);
                 if (result) {
                     textValue = result.join("");
@@ -19314,17 +19319,18 @@ var egret;
                 25: 0x000000,
                 26: "#000000",
                 27: 0,
-                28: -1,
-                29: 0,
-                30: false,
+                28: 0,
+                29: -1,
+                30: 0,
                 31: false,
-                32: 0x000000,
-                33: false,
-                34: 0xffffff,
-                35: null,
+                32: false,
+                33: 0x000000,
+                34: false,
+                35: 0xffffff,
                 36: null,
-                37: egret.TextFieldInputType.TEXT,
-                38: false //textLinesChangedForNativeRender
+                37: null,
+                38: egret.TextFieldInputType.TEXT,
+                39: false //textLinesChangedForNativeRender
             };
             return _this;
         }
@@ -19755,7 +19761,7 @@ var egret;
              * @platform Web,Native
              */
             get: function () {
-                return this.$TextField[37 /* inputType */];
+                return this.$TextField[38 /* inputType */];
             },
             /**
              * Pop-up keyboard type.
@@ -19768,10 +19774,10 @@ var egret;
              * @language zh_CN
              */
             set: function (value) {
-                if (this.$TextField[37 /* inputType */] == value) {
+                if (this.$TextField[38 /* inputType */] == value) {
                     return;
                 }
-                this.$TextField[37 /* inputType */] = value;
+                this.$TextField[38 /* inputType */] = value;
                 if (egret.nativeRender) {
                     this.$nativeDisplayObject.setInputType(value);
                 }
@@ -19992,6 +19998,27 @@ var egret;
             }
             return false;
         };
+        Object.defineProperty(TextField.prototype, "strokeOffsetY", {
+            get: function () {
+                return this.$TextField[28 /* strokeOffsetY */];
+            },
+            set: function (value) {
+                this.$setStrokeOffsetY(value);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        TextField.prototype.$setStrokeOffsetY = function (value) {
+            if (this.$TextField[28 /* strokeOffsetY */] != value) {
+                this.$invalidateTextField();
+                this.$TextField[28 /* strokeOffsetY */] = value;
+                if (egret.nativeRender) {
+                    // this.$nativeDisplayObject.setStrokeOffsetY(value);
+                }
+                return true;
+            }
+            return false;
+        };
         Object.defineProperty(TextField.prototype, "maxChars", {
             /**
              * The maximum number of characters that the text field can contain, as entered by a user. \n A script can insert more text than maxChars allows; the maxChars property indicates only how much text a user can enter. If the value of this property is 0, a user can enter an unlimited amount of text.
@@ -20035,7 +20062,7 @@ var egret;
              * @platform Web,Native
              */
             get: function () {
-                return Math.min(Math.max(this.$TextField[28 /* scrollV */], 1), this.maxScrollV);
+                return Math.min(Math.max(this.$TextField[29 /* scrollV */], 1), this.maxScrollV);
             },
             /**
              * Vertical position of text in a text field. scrollV property helps users locate specific passages in a long article, and create scrolling text fields.
@@ -20051,10 +20078,10 @@ var egret;
              */
             set: function (value) {
                 value = Math.max(value, 1);
-                if (value == this.$TextField[28 /* scrollV */]) {
+                if (value == this.$TextField[29 /* scrollV */]) {
                     return;
                 }
-                this.$TextField[28 /* scrollV */] = value;
+                this.$TextField[29 /* scrollV */] = value;
                 if (egret.nativeRender) {
                     this.$nativeDisplayObject.setScrollV(value);
                 }
@@ -20078,7 +20105,7 @@ var egret;
              */
             get: function () {
                 this.$getLinesArr();
-                return Math.max(this.$TextField[29 /* numLines */] - egret.TextFieldUtils.$getScrollNum(this) + 1, 1);
+                return Math.max(this.$TextField[30 /* numLines */] - egret.TextFieldUtils.$getScrollNum(this) + 1, 1);
             },
             enumerable: true,
             configurable: true
@@ -20151,14 +20178,14 @@ var egret;
              */
             get: function () {
                 this.$getLinesArr();
-                return this.$TextField[29 /* numLines */];
+                return this.$TextField[30 /* numLines */];
             },
             enumerable: true,
             configurable: true
         });
         Object.defineProperty(TextField.prototype, "multiline", {
             get: function () {
-                return this.$TextField[30 /* multiline */];
+                return this.$TextField[31 /* multiline */];
             },
             /**
              * Indicate whether field is a multiline text field. Note that this property is valid only when the type is TextFieldType.INPUT.
@@ -20184,10 +20211,10 @@ var egret;
          * @param value
          */
         TextField.prototype.$setMultiline = function (value) {
-            if (this.$TextField[30 /* multiline */] == value) {
+            if (this.$TextField[31 /* multiline */] == value) {
                 return false;
             }
-            this.$TextField[30 /* multiline */] = value;
+            this.$TextField[31 /* multiline */] = value;
             this.$invalidateTextField();
             if (egret.nativeRender) {
                 this.$nativeDisplayObject.setMultiline(value);
@@ -20198,14 +20225,14 @@ var egret;
             get: function () {
                 var values = this.$TextField;
                 var str = null;
-                if (values[35 /* restrictAnd */] != null) {
-                    str = values[35 /* restrictAnd */];
+                if (values[36 /* restrictAnd */] != null) {
+                    str = values[36 /* restrictAnd */];
                 }
-                if (values[36 /* restrictNot */] != null) {
+                if (values[37 /* restrictNot */] != null) {
                     if (str == null) {
                         str = "";
                     }
-                    str += "^" + values[36 /* restrictNot */];
+                    str += "^" + values[37 /* restrictNot */];
                 }
                 return str;
             },
@@ -20242,8 +20269,8 @@ var egret;
             set: function (value) {
                 var values = this.$TextField;
                 if (value == null) {
-                    values[35 /* restrictAnd */] = null;
-                    values[36 /* restrictNot */] = null;
+                    values[36 /* restrictAnd */] = null;
+                    values[37 /* restrictNot */] = null;
                 }
                 else {
                     var index = -1;
@@ -20263,16 +20290,16 @@ var egret;
                         }
                     }
                     if (index == 0) {
-                        values[35 /* restrictAnd */] = null;
-                        values[36 /* restrictNot */] = value.substring(index + 1);
+                        values[36 /* restrictAnd */] = null;
+                        values[37 /* restrictNot */] = value.substring(index + 1);
                     }
                     else if (index > 0) {
-                        values[35 /* restrictAnd */] = value.substring(0, index);
-                        values[36 /* restrictNot */] = value.substring(index + 1);
+                        values[36 /* restrictAnd */] = value.substring(0, index);
+                        values[37 /* restrictNot */] = value.substring(index + 1);
                     }
                     else {
-                        values[35 /* restrictAnd */] = value;
-                        values[36 /* restrictNot */] = null;
+                        values[36 /* restrictAnd */] = value;
+                        values[37 /* restrictNot */] = null;
                     }
                 }
             },
@@ -20359,7 +20386,7 @@ var egret;
              * @platform Web,Native
              */
             get: function () {
-                return this.$TextField[31 /* border */];
+                return this.$TextField[32 /* border */];
             },
             /**
              * Specifies whether the text field has a border.
@@ -20386,10 +20413,10 @@ var egret;
          */
         TextField.prototype.$setBorder = function (value) {
             value = !!value;
-            if (this.$TextField[31 /* border */] == value) {
+            if (this.$TextField[32 /* border */] == value) {
                 return;
             }
-            this.$TextField[31 /* border */] = value;
+            this.$TextField[32 /* border */] = value;
             this.$invalidateTextField();
             if (egret.nativeRender) {
                 this.$nativeDisplayObject.setBorder(value);
@@ -20401,7 +20428,7 @@ var egret;
              * @platform Web,Native
              */
             get: function () {
-                return this.$TextField[32 /* borderColor */];
+                return this.$TextField[33 /* borderColor */];
             },
             /**
              * The color of the text field border.
@@ -20426,10 +20453,10 @@ var egret;
          */
         TextField.prototype.$setBorderColor = function (value) {
             value = +value || 0;
-            if (this.$TextField[32 /* borderColor */] == value) {
+            if (this.$TextField[33 /* borderColor */] == value) {
                 return;
             }
-            this.$TextField[32 /* borderColor */] = value;
+            this.$TextField[33 /* borderColor */] = value;
             this.$invalidateTextField();
             if (egret.nativeRender) {
                 this.$nativeDisplayObject.setBorderColor(value);
@@ -20441,7 +20468,7 @@ var egret;
              * @platform Web,Native
              */
             get: function () {
-                return this.$TextField[33 /* background */];
+                return this.$TextField[34 /* background */];
             },
             /**
              * Specifies whether the text field has a background fill.
@@ -20467,10 +20494,10 @@ var egret;
          * @private
          */
         TextField.prototype.$setBackground = function (value) {
-            if (this.$TextField[33 /* background */] == value) {
+            if (this.$TextField[34 /* background */] == value) {
                 return;
             }
-            this.$TextField[33 /* background */] = value;
+            this.$TextField[34 /* background */] = value;
             this.$invalidateTextField();
             if (egret.nativeRender) {
                 this.$nativeDisplayObject.setBackground(value);
@@ -20482,7 +20509,7 @@ var egret;
              * @platform Web,Native
              */
             get: function () {
-                return this.$TextField[34 /* backgroundColor */];
+                return this.$TextField[35 /* backgroundColor */];
             },
             /**
              * Color of the text field background.
@@ -20506,10 +20533,10 @@ var egret;
          * @private
          */
         TextField.prototype.$setBackgroundColor = function (value) {
-            if (this.$TextField[34 /* backgroundColor */] == value) {
+            if (this.$TextField[35 /* backgroundColor */] == value) {
                 return;
             }
-            this.$TextField[34 /* backgroundColor */] = value;
+            this.$TextField[35 /* backgroundColor */] = value;
             this.$invalidateTextField();
             if (egret.nativeRender) {
                 this.$nativeDisplayObject.setBackgroundColor(value);
@@ -20525,7 +20552,7 @@ var egret;
                 graphics.clear();
             }
             var values = this.$TextField;
-            if (values[33 /* background */] || values[31 /* border */] || (lines && lines.length > 0)) {
+            if (values[34 /* background */] || values[32 /* border */] || (lines && lines.length > 0)) {
                 if (!graphics) {
                     graphics = this.$graphicsNode = new egret.sys.GraphicsNode();
                     if (!egret.nativeRender) {
@@ -20541,13 +20568,13 @@ var egret;
                 var fillPath = void 0;
                 var strokePath = void 0;
                 //渲染背景
-                if (values[33 /* background */]) {
-                    fillPath = graphics.beginFill(values[34 /* backgroundColor */]);
+                if (values[34 /* background */]) {
+                    fillPath = graphics.beginFill(values[35 /* backgroundColor */]);
                     fillPath.drawRect(0, 0, this.$getWidth(), this.$getHeight());
                 }
                 //渲染边框
-                if (values[31 /* border */]) {
-                    strokePath = graphics.lineStyle(1, values[32 /* borderColor */]);
+                if (values[32 /* border */]) {
+                    strokePath = graphics.lineStyle(1, values[33 /* borderColor */]);
                     //1像素和3像素线条宽度的情况，会向右下角偏移0.5像素绘制。少画一像素宽度，正好能不超出文本测量边界。
                     strokePath.drawRect(0, 0, this.$getWidth() - 1, this.$getHeight() - 1);
                 }
@@ -20630,7 +20657,7 @@ var egret;
             var self = this;
             self.$renderDirty = true;
             self.$TextField[18 /* textLinesChanged */] = true;
-            self.$TextField[38 /* textLinesChangedForNativeRender */] = true;
+            self.$TextField[39 /* textLinesChangedForNativeRender */] = true;
             if (egret.nativeRender) {
                 // egret_native.dirtyTextField(this);
             }
@@ -20651,17 +20678,21 @@ var egret;
             var bounds = this.$getContentBounds();
             var tmpBounds = egret.Rectangle.create();
             tmpBounds.copyFrom(bounds);
-            if (this.$TextField[31 /* border */]) {
+            if (this.$TextField[32 /* border */]) {
                 tmpBounds.width += 2;
                 tmpBounds.height += 2;
             }
             var _strokeDouble = this.$TextField[27 /* stroke */] * 2;
+            tmpBounds.x -= _strokeDouble + 2; //+2和+4 是为了webgl纹理太小导致裁切问题
+            tmpBounds.y -= _strokeDouble + 2;
             if (_strokeDouble > 0) {
                 tmpBounds.width += _strokeDouble * 2;
                 tmpBounds.height += _strokeDouble * 2;
+                var strokeOffsetY = this.$TextField[28 /* strokeOffsetY */];
+                if (strokeOffsetY) {
+                    tmpBounds.height += strokeOffsetY;
+                }
             }
-            tmpBounds.x -= _strokeDouble + 2; //+2和+4 是为了webgl纹理太小导致裁切问题
-            tmpBounds.y -= _strokeDouble + 2;
             tmpBounds.width = Math.ceil(tmpBounds.width) + 4;
             tmpBounds.height = Math.ceil(tmpBounds.height) + 4;
             return tmpBounds;
@@ -20780,7 +20811,7 @@ var egret;
          */
         TextField.prototype.setMiddleStyle = function (textArr) {
             this.$TextField[18 /* textLinesChanged */] = true;
-            this.$TextField[38 /* textLinesChangedForNativeRender */] = true;
+            this.$TextField[39 /* textLinesChangedForNativeRender */] = true;
             this.textArr = textArr;
             this.$invalidateTextField();
         };
@@ -20851,7 +20882,7 @@ var egret;
                 this.textArr.push(element);
                 this.$TextField[13 /* text */] = text;
                 this.$TextField[18 /* textLinesChanged */] = true;
-                this.$TextField[38 /* textLinesChangedForNativeRender */] = true;
+                this.$TextField[39 /* textLinesChangedForNativeRender */] = true;
                 this.$nativeDisplayObject.setTextFlow(this.textArr);
                 return;
             }
@@ -20866,9 +20897,9 @@ var egret;
         };
         TextField.prototype.$getLinesArr = function () {
             var values = this.$TextField;
-            if (egret.nativeRender && values[38 /* textLinesChangedForNativeRender */]) {
+            if (egret.nativeRender && values[39 /* textLinesChangedForNativeRender */]) {
                 egret_native.updateNativeRender();
-                values[38 /* textLinesChangedForNativeRender */] = false;
+                values[39 /* textLinesChangedForNativeRender */] = false;
                 return;
             }
             else {
@@ -20893,7 +20924,7 @@ var egret;
             var textFieldWidth = values[3 /* textFieldWidth */];
             //宽度被设置为0
             if (!isNaN(textFieldWidth) && textFieldWidth == 0) {
-                values[29 /* numLines */] = 0;
+                values[30 /* numLines */] = 0;
                 return [{ width: 0, height: 0, charNum: 0, elements: [], hasNextLine: false }];
             }
             var linesArr = this.linesArr;
@@ -21097,7 +21128,7 @@ var egret;
                     values[6 /* textHeight */] += lineH;
                 }
             }
-            values[29 /* numLines */] = linesArr.length;
+            values[30 /* numLines */] = linesArr.length;
             return linesArr;
         };
         /**
@@ -21124,6 +21155,7 @@ var egret;
             node.size = values[0 /* fontSize */];
             node.stroke = values[27 /* stroke */];
             node.strokeColor = values[25 /* strokeColor */];
+            node.strokeOffsetY = values[28 /* strokeOffsetY */];
             node.textColor = values[2 /* textColor */];
             //先算出需要的数值
             var lines = this.$getLinesArr();
@@ -21143,12 +21175,12 @@ var egret;
             var hAlign = egret.TextFieldUtils.$getHalign(this);
             var drawX = 0;
             var underLineData = [];
-            for (var i = startLine, numLinesLength = values[29 /* numLines */]; i < numLinesLength; i++) {
+            for (var i = startLine, numLinesLength = values[30 /* numLines */]; i < numLinesLength; i++) {
                 var line = lines[i];
                 var h = line.height;
                 drawY += h / 2;
                 if (i != startLine) {
-                    if (values[24 /* type */] == egret.TextFieldType.INPUT && !values[30 /* multiline */]) {
+                    if (values[24 /* type */] == egret.TextFieldType.INPUT && !values[31 /* multiline */]) {
                         break;
                     }
                     if (!isNaN(textFieldHeight) && drawY > textFieldHeight) {
@@ -21459,13 +21491,13 @@ var egret;
                 if (textHeight < textFieldHeight) {
                 }
                 else if (textHeight > textFieldHeight) {
-                    startLine = Math.max(values[28 /* scrollV */] - 1, 0);
-                    startLine = Math.min(values[29 /* numLines */] - 1, startLine);
+                    startLine = Math.max(values[29 /* scrollV */] - 1, 0);
+                    startLine = Math.min(values[30 /* numLines */] - 1, startLine);
                 }
-                if (!values[30 /* multiline */]) {
-                    startLine = Math.max(values[28 /* scrollV */] - 1, 0);
-                    if (values[29 /* numLines */] > 0) {
-                        startLine = Math.min(values[29 /* numLines */] - 1, startLine);
+                if (!values[31 /* multiline */]) {
+                    startLine = Math.max(values[29 /* scrollV */] - 1, 0);
+                    if (values[30 /* numLines */] > 0) {
+                        startLine = Math.min(values[30 /* numLines */] - 1, startLine);
                     }
                 }
             }
@@ -21486,7 +21518,7 @@ var egret;
             else if (textfield.$TextField[9 /* textAlign */] == egret.HorizontalAlign.RIGHT) {
                 halign = 1;
             }
-            if (textfield.$TextField[24 /* type */] == egret.TextFieldType.INPUT && !textfield.$TextField[30 /* multiline */] && lineArr.length > 1) {
+            if (textfield.$TextField[24 /* type */] == egret.TextFieldType.INPUT && !textfield.$TextField[31 /* multiline */] && lineArr.length > 1) {
                 halign = 0;
             }
             return halign;
@@ -21499,7 +21531,7 @@ var egret;
          */
         TextFieldUtils.$getTextHeight = function (textfield) {
             var textHeight = (egret.TextFieldType.INPUT == textfield.$TextField[24 /* type */]
-                && !textfield.$TextField[30 /* multiline */]) ? textfield.$TextField[0 /* fontSize */] : (textfield.$TextField[6 /* textHeight */] + (textfield.$TextField[29 /* numLines */] - 1) * textfield.$TextField[1 /* lineSpacing */]);
+                && !textfield.$TextField[31 /* multiline */]) ? textfield.$TextField[0 /* fontSize */] : (textfield.$TextField[6 /* textHeight */] + (textfield.$TextField[30 /* numLines */] - 1) * textfield.$TextField[1 /* lineSpacing */]);
             return textHeight;
         };
         /**
@@ -21617,7 +21649,7 @@ var egret;
          */
         TextFieldUtils.$getScrollNum = function (textfield) {
             var scrollNum = 1;
-            if (textfield.$TextField[30 /* multiline */]) {
+            if (textfield.$TextField[31 /* multiline */]) {
                 var height = textfield.height;
                 var size = textfield.size;
                 var lineSpacing = textfield.lineSpacing;

@@ -50,6 +50,10 @@ namespace egret.sys {
          */
         stroke?:number;
         /**
+         * 描边Y轴偏移
+         */
+        strokeOffsetY?:number;
+        /**
          * 是否加粗
          */
         bold?:boolean;

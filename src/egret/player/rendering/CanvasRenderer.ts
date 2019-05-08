@@ -693,11 +693,12 @@ namespace egret {
                 let textColor = format.textColor == null ? node.textColor : format.textColor;
                 let strokeColor = format.strokeColor == null ? node.strokeColor : format.strokeColor;
                 let stroke = format.stroke == null ? node.stroke : format.stroke;
+                let strokeOffsetY = format.strokeOffsetY == null ? node.strokeOffsetY : format.strokeOffsetY;
                 context.fillStyle = toColorString(textColor);
                 context.strokeStyle = toColorString(strokeColor);
                 if (stroke) {
                     context.lineWidth = stroke * 2;
-                    context.strokeText(text, x + context.$offsetX, y + context.$offsetY);
+                    context.strokeText(text, x + context.$offsetX, y + context.$offsetY + strokeOffsetY);
                 }
                 context.fillText(text, x + context.$offsetX, y + context.$offsetY);
             }

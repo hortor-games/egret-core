@@ -147,6 +147,10 @@ namespace egret.sys {
         /**
          * @private
          */
+        strokeOffsetY,
+        /**
+         * @private
+         */
         scrollV,
         /**
          * @private
@@ -317,17 +321,18 @@ namespace egret {
                 25: 0x000000,              //strokeColor
                 26: "#000000",              //strokeColorString
                 27: 0,              //stroke
-                28: -1,              //scrollV
-                29: 0,              //numLines
-                30: false,              //multiline
-                31: false,              //border
-                32: 0x000000,              //borderColor
-                33: false,              //background
-                34: 0xffffff,              //backgroundColor
-                35: null,           //restrictAnd
-                36: null,           //restrictNot
-                37: TextFieldInputType.TEXT,            //inputType
-                38: false            //textLinesChangedForNativeRender
+                28: 0,              //strokeOffsetY
+                29: -1,              //scrollV
+                30: 0,              //numLines
+                31: false,              //multiline
+                32: false,              //border
+                33: 0x000000,              //borderColor
+                34: false,              //background
+                35: 0xffffff,              //backgroundColor
+                36: null,           //restrictAnd
+                37: null,           //restrictNot
+                38: TextFieldInputType.TEXT,            //inputType
+                39: false            //textLinesChangedForNativeRender
             };
         }
 
@@ -1020,6 +1025,25 @@ namespace egret {
             return false;
         }
 
+      public get strokeOffsetY(): number {
+          return this.$TextField[sys.TextKeys.strokeOffsetY];
+      }
+
+      public set strokeOffsetY(value: number) {
+          this.$setStrokeOffsetY(value);
+      }
+
+      $setStrokeOffsetY(value: number): boolean {
+          if (this.$TextField[sys.TextKeys.strokeOffsetY] != value) {
+              this.$invalidateTextField();
+              this.$TextField[sys.TextKeys.strokeOffsetY] = value;
+              if (egret.nativeRender) {
+                  // this.$nativeDisplayObject.setStrokeOffsetY(value);
+              }
+              return true;
+          }
+          return false;
+      }
 
         /**
          * The maximum number of characters that the text field can contain, as entered by a user. \n A script can insert more text than maxChars allows; the maxChars property indicates only how much text a user can enter. If the value of this property is 0, a user can enter an unlimited amount of text.
@@ -1700,12 +1724,16 @@ namespace egret {
                 tmpBounds.height += 2;
             }
             let _strokeDouble = this.$TextField[sys.TextKeys.stroke] * 2;
+            tmpBounds.x -= _strokeDouble + 2;//+2和+4 是为了webgl纹理太小导致裁切问题
+            tmpBounds.y -= _strokeDouble + 2;
             if (_strokeDouble > 0) {
                 tmpBounds.width += _strokeDouble * 2;
                 tmpBounds.height += _strokeDouble * 2;
+                let strokeOffsetY = this.$TextField[sys.TextKeys.strokeOffsetY];
+                if(strokeOffsetY) {
+                  tmpBounds.height += strokeOffsetY;
+                }
             }
-            tmpBounds.x -= _strokeDouble + 2;//+2和+4 是为了webgl纹理太小导致裁切问题
-            tmpBounds.y -= _strokeDouble + 2;
             tmpBounds.width = Math.ceil(tmpBounds.width) + 4;
             tmpBounds.height = Math.ceil(tmpBounds.height) + 4;
             return tmpBounds;
@@ -2220,6 +2248,7 @@ namespace egret {
             node.size = values[sys.TextKeys.fontSize];
             node.stroke = values[sys.TextKeys.stroke];
             node.strokeColor = values[sys.TextKeys.strokeColor];
+            node.strokeOffsetY = values[sys.TextKeys.strokeOffsetY];
             node.textColor = values[sys.TextKeys.textColor];
             //先算出需要的数值
             let lines: Array<egret.ILineElement> = this.$getLinesArr();

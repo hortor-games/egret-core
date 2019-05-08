@@ -9848,6 +9848,10 @@ declare namespace egret.sys {
          */
         stroke?: number;
         /**
+         * 描边Y轴偏移
+         */
+        strokeOffsetY?: number;
+        /**
          * 是否加粗
          */
         bold?: boolean;
@@ -9884,6 +9888,10 @@ declare namespace egret.sys {
          * 描边大小
          */
         stroke: number;
+        /**
+         * 描边Y轴偏移
+         */
+        strokeOffsetY: number;
         /**
          * 是否加粗
          */
@@ -11922,47 +11930,51 @@ declare namespace egret.sys {
         /**
          * @private
          */
-        scrollV = 28,
+        strokeOffsetY = 28,
         /**
          * @private
          */
-        numLines = 29,
+        scrollV = 29,
         /**
          * @private
          */
-        multiline = 30,
+        numLines = 30,
         /**
          * @private
          */
-        border = 31,
+        multiline = 31,
         /**
          * @private
          */
-        borderColor = 32,
+        border = 32,
         /**
          * @private
          */
-        background = 33,
+        borderColor = 33,
         /**
          * @private
          */
-        backgroundColor = 34,
+        background = 34,
         /**
          * @private
          */
-        restrictAnd = 35,
+        backgroundColor = 35,
         /**
          * @private
          */
-        restrictNot = 36,
+        restrictAnd = 36,
         /**
          * @private
          */
-        inputType = 37,
+        restrictNot = 37,
         /**
          * @private
          */
-        textLinesChangedForNativeRender = 38,
+        inputType = 38,
+        /**
+         * @private
+         */
+        textLinesChangedForNativeRender = 39,
     }
 }
 declare namespace egret {
@@ -12334,6 +12346,8 @@ declare namespace egret {
          * @param value
          */
         $setStroke(value: number): boolean;
+        strokeOffsetY: number;
+        $setStrokeOffsetY(value: number): boolean;
         /**
          * The maximum number of characters that the text field can contain, as entered by a user. \n A script can insert more text than maxChars allows; the maxChars property indicates only how much text a user can enter. If the value of this property is 0, a user can enter an unlimited amount of text.
          * The default value is 0.

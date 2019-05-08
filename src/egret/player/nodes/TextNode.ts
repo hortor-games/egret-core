@@ -57,6 +57,10 @@ namespace egret.sys {
          */
         public stroke:number = 0;
         /**
+         * 描边Y轴偏移
+         */
+        public strokeOffsetY:number = 0;
+        /**
          * 是否加粗
          */
         public bold:boolean = false;
