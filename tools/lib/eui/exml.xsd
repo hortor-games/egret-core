@@ -235,6 +235,7 @@
     <xs:attribute name="skewX" type="xs:decimal"/>
     <xs:attribute name="skewY" type="xs:decimal"/>
     <xs:attribute name="touchEnabled" type="xs:boolean"/>
+    <xs:attribute name="touchIgnore" type="xs:boolean"/>
     <xs:attribute name="visible" type="xs:boolean"/>
     <xs:attribute name="width" type="xs:string"/>
     <xs:attribute name="x" type="xs:decimal"/>
@@ -657,6 +658,7 @@
     <xs:attribute name="size" type="xs:decimal"/>
     <xs:attribute name="stroke" type="xs:decimal"/>
     <xs:attribute name="strokeColor" type="xs:string"/>
+    <xs:attribute name="strokeOffsetY" type="xs:decimal"/>
     <xs:attribute name="text" type="xs:string"/>
     <xs:attribute name="textAlign" type="text_textAlign"/>
     <xs:attribute name="textColor" type="xs:string"/>
