@@ -654,6 +654,13 @@ var egret;
              * @private
              */
             _this.$alpha = 1;
+            /**
+             * 指定此对象以及子项是否忽略触摸。
+             * @default false
+             * @platform Web,Native
+             * @language zh_CN
+             */
+            _this.touchIgnore = false;
             _this.$touchEnabled = DisplayObject.defaultTouchEnabled;
             /**
              * @private
@@ -2450,6 +2457,9 @@ var egret;
          */
         DisplayObject.prototype.$hitTest = function (stageX, stageY) {
             var self = this;
+            if (self.touchIgnore) {
+                return;
+            }
             if ((!egret.nativeRender && !self.$renderNode) || !self.$visible || self.$scaleX == 0 || self.$scaleY == 0) {
                 return null;
             }
@@ -5063,6 +5073,9 @@ var egret;
          * @private
          */
         DisplayObjectContainer.prototype.$hitTest = function (stageX, stageY) {
+            if (this.touchIgnore) {
+                return;
+            }
             if (!this.$visible) {
                 return null;
             }
@@ -5926,6 +5939,9 @@ var egret;
             configurable: true
         });
         Bitmap.prototype.$hitTest = function (stageX, stageY) {
+            if (this.touchIgnore) {
+                return;
+            }
             var target = _super.prototype.$hitTest.call(this, stageX, stageY);
             if (target && this._pixelHitTest) {
                 var boo = this.hitTestPoint(stageX, stageY, true);
@@ -17329,6 +17345,9 @@ var egret;
             this.$graphics.$measureContentBounds(bounds);
         };
         Shape.prototype.$hitTest = function (stageX, stageY) {
+            if (this.touchIgnore) {
+                return;
+            }
             var target = _super.prototype.$hitTest.call(this, stageX, stageY);
             if (target == this) {
                 target = this.$graphics.$hitTest(stageX, stageY);
@@ -17484,6 +17503,9 @@ var egret;
             configurable: true
         });
         Sprite.prototype.$hitTest = function (stageX, stageY) {
+            if (this.touchIgnore) {
+                return;
+            }
             if (!this.$visible) {
                 return null;
             }

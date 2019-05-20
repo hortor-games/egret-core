@@ -896,6 +896,13 @@ declare namespace egret {
          */
         $setAlpha(value: number): void;
         /**
+         * 指定此对象以及子项是否忽略触摸。
+         * @default false
+         * @platform Web,Native
+         * @language zh_CN
+         */
+        touchIgnore: boolean;
+        /**
          * @private
          * The default touchEnabled property of DisplayObject
          * @default false

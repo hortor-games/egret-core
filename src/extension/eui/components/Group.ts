@@ -441,6 +441,9 @@ namespace eui {
          * @private
          */
         $hitTest(stageX:number, stageY:number):egret.DisplayObject {
+            if (this.touchIgnore) {
+                return;
+            }
             let target = super.$hitTest(stageX, stageY);
             if (target || this.$Group[Keys.touchThrough]) {
                 return target;

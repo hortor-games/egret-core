@@ -298,7 +298,7 @@ var egret;
                     delete HtmlSound.clearAudios[this.url];
                 }
                 function onAudioLoaded() {
-                    HtmlSound.$recycle(this.url, audio);
+                    HtmlSound.$recycle(url, audio);
                     removeListeners();
                     if (ua.indexOf("firefox") >= 0) {
                         audio.pause();

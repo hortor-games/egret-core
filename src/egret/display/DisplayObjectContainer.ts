@@ -791,6 +791,9 @@ namespace egret {
          * @private
          */
         $hitTest(stageX: number, stageY: number): DisplayObject {
+            if (this.touchIgnore) {
+                return;
+            }
             if (!this.$visible) {
                 return null;
             }

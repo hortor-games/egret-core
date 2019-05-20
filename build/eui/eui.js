@@ -2569,6 +2569,9 @@ var eui;
          * @private
          */
         Group.prototype.$hitTest = function (stageX, stageY) {
+            if (this.touchIgnore) {
+                return;
+            }
             var target = _super.prototype.$hitTest.call(this, stageX, stageY);
             if (target || this.$Group[5 /* touchThrough */]) {
                 return target;

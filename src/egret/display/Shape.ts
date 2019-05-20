@@ -100,6 +100,9 @@ namespace egret {
         }
 
         $hitTest(stageX:number, stageY:number):DisplayObject {
+            if (this.touchIgnore) {
+                return;
+            }
             let target = super.$hitTest(stageX, stageY);
             if (target == this) {
                 target = this.$graphics.$hitTest(stageX, stageY);

@@ -1241,6 +1241,14 @@ namespace egret {
         }
 
         /**
+         * 指定此对象以及子项是否忽略触摸。
+         * @default false
+         * @platform Web,Native
+         * @language zh_CN
+         */
+        public touchIgnore: boolean = false;
+        
+        /**
          * @private
          * The default touchEnabled property of DisplayObject
          * @default false
@@ -2039,6 +2047,9 @@ namespace egret {
          */
         $hitTest(stageX: number, stageY: number): DisplayObject {
             let self = this;
+            if (self.touchIgnore) {
+                return;
+            }
             if ((!egret.nativeRender && !self.$renderNode) || !self.$visible || self.$scaleX == 0 || self.$scaleY == 0) {
                 return null;
             }
